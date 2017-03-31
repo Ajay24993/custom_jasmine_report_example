@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en" ng-app="testingAngularApp">
+
+<head>
+    <title>Testing AngularJS</title>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/controllers/testingAngularCtrl.js"></script>
+</head>
+
+<body ng-controller="testingAngularCtrl">
+    <h3 align="center">{{title}}</h3>
+    <div align="center">
+        <form name="destinationForm" ng-submit="addDestination()">
+            City:
+            <input name="city" type="text" ng-model="newDestination.city" />
+            <br />
+            <br />Country:
+            <input name="country" type="text" ng-model="newDestination.country" />
+            <br />
+            <br />
+            <input type="submit" value="Add" />
+        </form>
+    </div>
+    <section align="center">
+        <h2>Your Trip</h2>
+        <h4 ng-show="message" style="color: red;">{{message}}</h4>
+        <div ng-repeat="destination in destinations">
+            <span>{{destination.city}}, {{destination.country}} </span>
+            <span ng-if="destination.weather"> - {{destination.weather.main}}, {{destination.weather.temp}}C</span>
+            <button ng-click="removeDestination($index)">Remove</button>
+            <button ng-click="getWeather(destination)">Update Weather</button>
+        </div>
+    </section>
+    <section>
+        <h2 align="center">Warmest Destination</h2>
+        <div ng-repeat="destination in destinations | warmestDestinations:10" align="center">
+            <span>{{destination.city}}, {{destination.country}} </span>
+        </div>
+        <div id="simple" align="center">
+            <p>Example to test Custom Servies</p>
+            <input ng-init="message_c='sam'" ng-model="message_c">
+            <button ng-click="custService(message_c)">NOTIFY</button>
+            <p style="color: red;">(you have to click 3 times to see an alert)</p>
+        </div>
+    </section>
+    <section align="center">
+        <h4>Custom Deirectives</h4>
+        <div ng-repeat="destination in destinations">
+            <div destination-directives destination="destination" api-Key="apiKey" on-remove="removeDestination($index)"></div>
+        </div>
+    </section>
+</body>
+
+</html>
